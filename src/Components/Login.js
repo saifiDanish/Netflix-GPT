@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/UserSlice";
 const Login = () => {
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const [isSignIn, setIsSignIn] = useState(true);
   const [errMessage, setErrMessage] = useState(null);
   const toggleSignUp = () => {
@@ -42,7 +42,8 @@ const Login = () => {
           // const auth = getAuth();
           updateProfile(user, {
             displayName: name.current.value,
-            photoURL: "https://media.licdn.com/dms/image/D4D35AQEiduhQFX6l2A/profile-framedphoto-shrink_400_400/0/1669286315199?e=1698087600&v=beta&t=wcaQUR0ERRBuyjVUMvn9NInwidiwdumyt76KIkKCir8",
+            photoURL:
+              "https://media.licdn.com/dms/image/D4D35AQEiduhQFX6l2A/profile-framedphoto-shrink_400_400/0/1669286315199?e=1698087600&v=beta&t=wcaQUR0ERRBuyjVUMvn9NInwidiwdumyt76KIkKCir8",
           })
             .then(() => {
               // Profile updated!
@@ -53,7 +54,7 @@ const Login = () => {
                   uid: uid,
                   email: email,
                   displayName: displayName,
-                  photoURL: photoURL
+                  photoURL: photoURL,
                 })
               );
               // ...
@@ -62,16 +63,16 @@ const Login = () => {
               // An error occurred
               // ...
             });
-          console.log(user);
-          navigate("/browse");
+          // console.log(user);
+          // navigate("/browse");
 
           // ...
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          console.log(errorCode);
-          console.log(errorMessage);
+          // console.log(errorCode);
+          // console.log(errorMessage);
           setErrMessage(errorCode + " - " + errorMessage);
           // ..
         });
@@ -85,16 +86,16 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log(user);
-          navigate("/browse");
+          // console.log(user);
+          // navigate("/browse");
 
           // ...
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          console.log(errorCode);
-          console.log(errorMessage);
+          // console.log(errorCode);
+          // console.log(errorMessage);
           setErrMessage(errorCode + " - " + errorMessage);
         });
     }
