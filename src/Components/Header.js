@@ -4,12 +4,22 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { addUser, removeUser } from "../utils/UserSlice";
-
+import { toggleGptSearchView } from "../utils/gptSlice";
+import { Supported_Language } from "../utils/constants";
+import { changeLanguage } from "../utils/configSlice";
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((store) => store.user);
   // console.log(user.photoURL);
+
+  const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
+  console.log(showGptSearch)
+
+  const handleGPTSearchView = () => {
+    dispatch(toggleGptSearchView());
+  };
+
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
@@ -50,6 +60,10 @@ const Header = () => {
     });
   }, []);
 
+  const handleLanguageChange = (e) => {
+    dispatch(changeLanguage(e.target.value));
+  };
+
   return (
     <div className="absolute px-6 py-2 bg-gradient-to-b from-black w-screen flex justify-between z-10">
       <img
@@ -59,7 +73,24 @@ const Header = () => {
       />
       {user && (
         <div className="flex p-2">
-          <span className="my-8 p-2 mx-2 font-bold ">{user.displayName}</span>
+         {showGptSearch && <select
+            className="p-2 mx-2 my-10 bg-black text-white"
+            onChange={handleLanguageChange}
+          >
+            {Supported_Language.map((language) => (
+              <option key={language.identifier} value={language.identifier}>
+                {language.name}
+              </option>
+            ))}
+          </select>}
+          <button
+            className="bg-purple-600 rounded-md  px-2 my-8 mx-4 font-bold"
+            onClick={handleGPTSearchView}
+          >{showGptSearch?"HomePage":"SearchGPT" }
+          </button>
+          <span className="my-8 p-2 mx-2 font-bold text-white">
+            {user.displayName}
+          </span>
           <img
             className="w-10 h-10 my-8 rounded-2xl"
             src={user.photoURL}
@@ -69,7 +100,7 @@ const Header = () => {
             className="mx-4 bg-red-600 h-10 my-8 rounded-2xl text-black p-2 font-bold "
             onClick={handleSignOut}
           >
-            (Sign Out)
+            Sign Out
           </button>
         </div>
       )}
